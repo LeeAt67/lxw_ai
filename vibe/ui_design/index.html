@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>电商 App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF4444',
+            secondary: '#FF8888'
+          },
+          borderRadius: {
+            'none': '0px',
+            'sm': '2px',
+            DEFAULT: '4px',
+            'md': '8px',
+            'lg': '12px',
+            'xl': '16px',
+            '2xl': '20px',
+            '3xl': '24px',
+            'full': '9999px',
+            'button': '4px'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50">
+  <div class="w-[375px] min-h-[762px] mx-auto bg-white relative">
+    <nav class="fixed top-0 w-[375px] h-[56px] bg-white border-b border-gray-100 flex items-center px-4 z-50">
+      <span class="font-['Pacifico'] text-primary text-xl">logo</span>
+      <div class="flex-1 mx-4">
+        <div class="bg-gray-50 rounded-full flex items-center px-4 h-[36px]">
+          <i class="fas fa-search text-gray-400 text-sm"></i>
+          <input type="text" placeholder="搜索商品" class="ml-2 bg-transparent border-none outline-none text-sm flex-1">
+        </div>
+      </div>
+      <i class="fas fa-bell text-gray-600"></i>
+    </nav>
+
+    <div class="pt-[66px] pb-[66px]">
+      <div class="px-4">
+        <div class="rounded-lg overflow-hidden">
+          <img src="https://ai-public.mastergo.com/ai/img_res/3a8822b312197e6facc3b8842e20f514.jpg"
+            class="w-full h-[160px] object-cover" alt="banner">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-5 gap-2 px-4 mt-6">
+        <div class="text-center">
+          <div class="w-[48px] h-[48px] mx-auto rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/82addc5beee832e0c758c4d8b5f8810f.jpg"
+              class="w-full h-full object-cover">
+          </div>
+          <p class="text-xs mt-1 text-gray-600">服装</p>
+        </div>
+        <div class="text-center">
+          <div class="w-[48px] h-[48px] mx-auto rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/8a16df57f1da06aff780aaabb3df5022.jpg"
+              class="w-full h-full object-cover">
+          </div>
+          <p class="text-xs mt-1 text-gray-600">数码</p>
+        </div>
+        <div class="text-center">
+          <div class="w-[48px] h-[48px] mx-auto rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/343a4e14aa55f53a0c661de48ac9bfb1.jpg"
+              class="w-full h-full object-cover">
+          </div>
+          <p class="text-xs mt-1 text-gray-600">美妆</p>
+        </div>
+        <div class="text-center">
+          <div class="w-[48px] h-[48px] mx-auto rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/69370acb86bcfa9f49d801d04a993cfd.jpg"
+              class="w-full h-full object-cover">
+          </div>
+          <p class="text-xs mt-1 text-gray-600">美食</p>
+        </div>
+        <div class="text-center">
+          <div class="w-[48px] h-[48px] mx-auto rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/f88f1e8b96897daa0ee210a23691b563.jpg"
+              class="w-full h-full object-cover">
+          </div>
+          <p class="text-xs mt-1 text-gray-600">礼品</p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <div class="px-4 flex justify-between items-center">
+          <h2 class="text-lg font-medium">热门推荐</h2>
+          <a href="#" class="text-sm text-gray-500">查看全部</a>
+        </div>
+        <div class="mt-4 grid grid-cols-2 gap-4 px-4">
+          <div class="bg-white rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/749ac6b0524d741ba6ee943339c5aac2.jpg"
+              class="w-full h-[160px] object-cover">
+            <div class="p-2">
+              <h3 class="text-sm font-medium">轻便运动鞋</h3>
+              <p class="text-xs text-gray-500 mt-1">舒适透气 轻盈随行</p>
+              <div class="mt-2 flex items-center">
+                <span class="text-primary text-lg font-medium">¥299</span>
+                <span class="ml-1 text-xs text-gray-400 line-through">¥399</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/16cef34f3dba859717ebcf8165e652aa.jpg"
+              class="w-full h-[160px] object-cover">
+            <div class="p-2">
+              <h3 class="text-sm font-medium">真皮手提包</h3>
+              <p class="text-xs text-gray-500 mt-1">精选头层牛皮</p>
+              <div class="mt-2 flex items-center">
+                <span class="text-primary text-lg font-medium">¥899</span>
+                <span class="ml-1 text-xs text-gray-400 line-through">¥1299</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <div class="px-4">
+          <h2 class="text-lg font-medium">猜你喜欢</h2>
+        </div>
+        <div class="mt-4 grid grid-cols-2 gap-4 px-4">
+          <div class="bg-white rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/fa25b34c158255275759f8d592ebd425.jpg"
+              class="w-full h-[160px] object-cover">
+            <div class="p-2">
+              <h3 class="text-sm font-medium">无线耳机</h3>
+              <p class="text-xs text-gray-500 mt-1">主动降噪 持久续航</p>
+              <div class="mt-2 flex items-center">
+                <span class="text-primary text-lg font-medium">¥499</span>
+                <span class="ml-1 text-xs text-gray-400 line-through">¥699</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg overflow-hidden">
+            <img src="https://ai-public.mastergo.com/ai/img_res/66f49a044b6a357dd99cc63d77dfad7e.jpg"
+              class="w-full h-[160px] object-cover">
+            <div class="p-2">
+              <h3 class="text-sm font-medium">智能手表</h3>
+              <p class="text-xs text-gray-500 mt-1">多功能运动监测</p>
+              <div class="mt-2 flex items-center">
+                <span class="text-primary text-lg font-medium">¥799</span>
+                <span class="ml-1 text-xs text-gray-400 line-through">¥999</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed bottom-0 w-[375px] h-[56px] bg-white border-t border-gray-100 grid grid-cols-5 items-center">
+      <a href="#" class="flex flex-col items-center text-primary">
+        <i class="fas fa-home text-[20px] h-[24px] flex items-center"></i>
+        <span class="text-xs mt-1">首页</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-400">
+        <i class="fas fa-play text-[20px] h-[24px] flex items-center"></i>
+        <span class="text-xs mt-1">视频</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-400">
+        <i class="fas fa-comment text-[20px] h-[24px] flex items-center"></i>
+        <span class="text-xs mt-1">消息</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-400">
+        <i class="fas fa-shopping-bag text-[20px] h-[24px] flex items-center"></i>
+        <span class="text-xs mt-1">购物</span>
+      </a>
+      <a href="#" class="flex flex-col items-center text-gray-400">
+        <i class="fas fa-user text-[20px] h-[24px] flex items-center"></i>
+        <span class="text-xs mt-1">我的</span>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>
