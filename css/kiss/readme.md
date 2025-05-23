@@ -28,3 +28,18 @@
   inline-block  行内块级  既可以设置宽高 又可以 在一行
   inline 行内  不可以设置宽高
   block  块级  独占一行
+
+- 面向对象的css
+  多态
+  复用  多类名
+- 定位
+  - position 定位
+    static 没有定位能力
+    relative 相对定位
+      - 子元素相对它定位
+      - 相对于自身的位置定位
+    absolute 绝对定位
+      - 
+    absolute 找到离它（管着它的）最近的position 不为static 的属性定位
+    直到body 为止
+    .container absolute 相对body来定位
