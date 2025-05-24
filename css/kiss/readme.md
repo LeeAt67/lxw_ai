@@ -37,9 +37,9 @@
     static 没有定位能力
     relative 相对定位
       - 子元素相对它定位
-      - 相对于自身的位置定位
+      - 基于其原来默认文档流中的位置来进行定位，不脱离原来文档流（相对于自身的位置定位）
     absolute 绝对定位
-      - 
-    absolute 找到离它（管着它的）最近的position 不为static 的属性定位
+      - 脱离原来文档流，元素的原来位置被其他元素占用，其相对于第一个非静态定位的父级元素进行定位,没有position属性默认position属性值为static（absolute 找到离它（管着它的最近的position 不为static 的属性定位）
+
     直到body 为止
     .container absolute 相对body来定位
