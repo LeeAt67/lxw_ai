@@ -17,4 +17,8 @@
   Number.MAX_SAFE_INTEGER安全上限 x^53 - 1   9007199254740991 
   es6 新增的第六种简单数据类型
   后面加 n
+  BigInt("123")，不能new
+  无限大， 无溢出问题
+  不能混合Number 和 BigInt 运算
+  js 适合大型项目开发
 
