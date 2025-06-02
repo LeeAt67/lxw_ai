@@ -12,3 +12,9 @@
 - 字符串化
   
 - es6 bigInt 大数类型
+
+## BigInt
+  Number.MAX_SAFE_INTEGER安全上限 x^53 - 1   9007199254740991 
+  es6 新增的第六种简单数据类型
+  后面加 n
+
