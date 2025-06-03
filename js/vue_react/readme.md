@@ -27,3 +27,22 @@
     tbody 挂载点上
     远离API
 - react
+
+## 现代前端开发框架
+- 离开原生JS的刀耕火种
+- 聚焦于业务
+    - App 的概念
+    切图崽 html + css + 简单的js （DOM + event）
+    App  应用开发工程师
+    Vue.createApp(App).mount('#app')
+    #app 是 这里面支持Vue app 接管
+    不用低级的DOM API
+    - 循环输出数据
+      - vue APP 中提供了data(){
+        friends
+      }
+      - tr v-for 配合循环输出的业务
+
+## react 来自于FaceBook 适合大型应用。
+- 创建react 应用
+  - npm init vite 初始化一个项目
