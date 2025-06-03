@@ -15,6 +15,10 @@ string object, null, undefined, symbol, numeric 6种primitive 简单类型,其�
 其他的都是object
 
 
+
 ## ECMA 
 - JS 是ECMA 语法规范的一个版本
 -JavaScript 和 Java 没有关系
+
+## Symbol
+es6 新增的一种数据类型
