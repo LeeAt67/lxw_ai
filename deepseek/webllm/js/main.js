@@ -35,9 +35,9 @@ const payload = {
   model: 'deepseek-chat',
   messages: [
     // chat 三种方式
-    // 1. 系统角色  只会出现一次 设置系统的角色
-    // 2. 用户角色
-    // 3. 助手角色
+    // 1. 系统角色  只会出现一次 设置系统的角色 开始会话时
+    // 2. 用户角色  user 提问
+    // 3. 助手角色  
     { role: 'system', content: 'You are a helpeful assistant.' },
     { role: 'user', content: '你好 Deepseek' }
   ]
@@ -46,8 +46,13 @@ const payload = {
 fetch(endpoint, {
   method: 'POST',
   headers: headers,
+  // http 请求传输只能是字符串， 二进制流
   body: JSON.stringify(payload)
+  // 请求 + LLM 生成需要花时间 
+  // http 是基于请求响应的简单协议
+  // 返回来的也是文本或二进制流
 }).then(res => res.json())
+  // 解析返回的json 数据 也要花时间
   .then(data => {
     console.log(data);
     document.querySelector('#reply').innerHTML += data.choices[0].message.content
