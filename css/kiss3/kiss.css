@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  background-color: aqua;
+}
+
+.ball {
+  height: 150px;
+  width: 150px;
+  border: 10px solid #333;
+  background-color: bisque;
+}
