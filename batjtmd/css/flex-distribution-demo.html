@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flex布局：溢出vs剩余空间分配</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .demo-section {
+      margin-bottom: 40px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      display: flex;
+      border: 2px solid #333;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    /* 剩余空间分配示例 */
+    .surplus-container {
+      width: 600px;
+      height: 100px;
+    }
+
+    .surplus-left {
+      flex: 1 0 100px;
+      /* flex-grow: 1, flex-shrink: 0, flex-basis: 100px */
+      background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .surplus-right {
+      flex: 2 0 200px;
+      /* flex-grow: 2, flex-shrink: 0, flex-basis: 200px */
+      background: linear-gradient(45deg, #4ecdc4, #6dd5ed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* 溢出收缩示例 */
+    .overflow-container {
+      width: 400px;
+      height: 100px;
+    }
+
+    .overflow-left {
+      flex: 0 1 300px;
+      /* flex-grow: 0, flex-shrink: 1, flex-basis: 300px */
+      background: linear-gradient(45deg, #ff9a9e, #fecfef);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .overflow-right {
+      flex: 0 2 300px;
+      /* flex-grow: 0, flex-shrink: 2, flex-basis: 300px */
+      background: linear-gradient(45deg, #a8edea, #fed6e3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .info {
+      background: #e8f4f8;
+      padding: 15px;
+      border-left: 4px solid #2196F3;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .formula {
+      background: #fff3cd;
+      padding: 15px;
+      border: 1px solid #ffeaa7;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-family: monospace;
+    }
+
+    .size-label {
+      position: absolute;
+      top: -25px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      font-weight: bold;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .comparison-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #dee2e6;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Flex布局：溢出与剩余空间分配机制详解</h1>
+
+  <!-- 剩余空间分配示例 -->
+  <div class="demo-section">
+    <h2>情况1：剩余空间分配 (flex-grow)</h2>
+    <div class="info">
+      <strong>场景：</strong>容器宽度 > 子元素基准宽度总和，存在剩余空间需要分配
+    </div>
+
+    <div class="container surplus-container">
+      <div class="size-label">容器宽度: 600px</div>
+      <div class="surplus-left">Left<br>basis: 100px<br>grow: 1</div>
+      <div class="surplus-right">Right<br>basis: 200px<br>grow: 2</div>
+    </div>
+
+    <div class="formula">
+      <strong>计算过程：</strong><br>
+      1. 基准宽度总和：100px + 200px = 300px<br>
+      2. 剩余空间：600px - 300px = 300px<br>
+      3. 增长比例总和：1 + 2 = 3<br>
+      4. Left 增长：300px × (1/3) = 100px → 最终宽度：100px + 100px = 200px<br>
+      5. Right 增长：300px × (2/3) = 200px → 最终宽度：200px + 200px = 400px
+    </div>
+  </div>
+
+  <!-- 溢出收缩示例 -->
+  <div class="demo-section">
+    <h2>情况2：溢出收缩 (flex-shrink)</h2>
+    <div class="info">
+      <strong>场景：</strong>容器宽度 < 子元素基准宽度总和，发生溢出需要收缩 </div>
+
+        <div class="container overflow-container">
+          <div class="size-label">容器宽度: 400px</div>
+          <div class="overflow-left">Left<br>basis: 300px<br>shrink: 1</div>
+          <div class="overflow-right">Right<br>basis: 300px<br>shrink: 2</div>
+        </div>
+
+        <div class="formula">
+          <strong>计算过程：</strong><br>
+          1. 基准宽度总和：300px + 300px = 600px<br>
+          2. 溢出空间：600px - 400px = 200px（需要收缩）<br>
+          3. 加权收缩总和：300px×1 + 300px×2 = 900px<br>
+          4. Left 收缩：200px × (300×1/900) = 66.67px → 最终宽度：300px - 66.67px = 233.33px<br>
+          5. Right 收缩：200px × (300×2/900) = 133.33px → 最终宽度：300px - 133.33px = 166.67px
+        </div>
+    </div>
+
+    <!-- 核心区别对比 -->
+    <div class="demo-section">
+      <h2>核心区别总结</h2>
+
+      <div class="comparison">
+        <div class="comparison-item">
+          <h3>剩余空间分配 (flex-grow)</h3>
+          <ul>
+            <li><strong>公式：</strong>简单比例分配</li>
+            <li><strong>计算：</strong>剩余空间 × (grow值 / 总grow值)</li>
+            <li><strong>特点：</strong>每个元素按grow比例获得剩余空间</li>
+          </ul>
+        </div>
+
+        <div class="comparison-item">
+          <h3>溢出收缩 (flex-shrink)</h3>
+          <ul>
+            <li><strong>公式：</strong>加权比例分配</li>
+            <li><strong>计算：</strong>溢出空间 × (basis×shrink / 总加权值)</li>
+            <li><strong>特点：</strong>考虑元素原始大小，大元素承担更多收缩</li>
+          </ul>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>对比项</th>
+            <th>剩余空间分配</th>
+            <th>溢出收缩</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>触发条件</td>
+            <td>容器空间 > 元素总基准宽度</td>
+            <td>容器空间 < 元素总基准宽度</td>
+          </tr>
+          <tr>
+            <td>使用属性</td>
+            <td>flex-grow</td>
+            <td>flex-shrink</td>
+          </tr>
+          <tr>
+            <td>计算方式</td>
+            <td>按grow比例直接分配</td>
+            <td>按加权比例分配（basis×shrink）</td>
+          </tr>
+          <tr>
+            <td>考虑因素</td>
+            <td>只考虑grow值</td>
+            <td>同时考虑shrink值和basis值</td>
+          </tr>
+          <tr>
+            <td>设计理念</td>
+            <td>公平分配额外空间</td>
+            <td>让大元素承担更多收缩责任</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info">
+        <strong>为什么不一样？</strong><br>
+        1. <strong>设计目的不同：</strong>grow是分配多余空间，shrink是解决空间不足<br>
+        2. <strong>公平性考虑：</strong>收缩时考虑元素原始大小更合理，避免小元素被过度压缩<br>
+        3. <strong>用户体验：</strong>大元素有更大的收缩空间，小元素保持相对稳定<br>
+        4. <strong>实际需求：</strong>在空间紧张时，大元素通常更能承受尺寸变化
+      </div>
+    </div>
+
+</body>
+
+</html>

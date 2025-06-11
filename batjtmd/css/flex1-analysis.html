@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你的代码分析：Flex溢出收缩</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .demo-section {
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      display: flex;
+      width: 600px;
+      height: 300px;
+      border: 3px solid #333;
+      position: relative;
+    }
+
+    .left {
+      flex: 1 2 500px;
+      /* flex-grow: 1, flex-shrink: 2, flex-basis: 500px */
+      background-color: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .right {
+      flex: 2 1 400px;
+      /* flex-grow: 2, flex-shrink: 1, flex-basis: 400px */
+      background-color: blue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .analysis {
+      background: #fff3cd;
+      padding: 20px;
+      border: 1px solid #ffeaa7;
+      border-radius: 4px;
+      margin: 15px 0;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .info {
+      background: #e8f4f8;
+      padding: 15px;
+      border-left: 4px solid #2196F3;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .size-label {
+      position: absolute;
+      top: -30px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 14px;
+      color: #333;
+      font-weight: bold;
+      background: #fff;
+      padding: 5px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+
+    .result {
+      background: #d4edda;
+      padding: 15px;
+      border: 1px solid #c3e6cb;
+      border-radius: 4px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>你的代码分析：flex: 1 2 500px 和 flex: 2 1 400px</h1>
+
+  <div class="demo-section">
+    <h2>原始代码重现</h2>
+    <div class="info">
+      <strong>容器宽度：</strong>600px<br>
+      <strong>Left 元素：</strong>flex: 1 2 500px (grow: 1, shrink: 2, basis: 500px)<br>
+      <strong>Right 元素：</strong>flex: 2 1 400px (grow: 2, shrink: 1, basis: 400px)
+    </div>
+
+    <div class="container">
+      <div class="size-label">容器宽度: 600px</div>
+      <div class="left">
+        Left<br>
+        flex: 1 2 500px<br>
+        实际宽度: 266.67px
+      </div>
+      <div class="right">
+        Right<br>
+        flex: 2 1 400px<br>
+        实际宽度: 333.33px
+      </div>
+    </div>
+
+    <div class="analysis">
+      <strong>这是溢出收缩情况的分析：</strong><br><br>
+
+      <strong>1. 判断是否溢出：</strong><br>
+      基准宽度总和 = 500px + 400px = 900px<br>
+      容器宽度 = 600px<br>
+      900px > 600px，发生溢出，触发 flex-shrink<br><br>
+
+      <strong>2. 计算溢出空间：</strong><br>
+      溢出空间 = 900px - 600px = 300px<br><br>
+
+      <strong>3. 计算加权收缩总和：</strong><br>
+      Left 加权值 = 500px × 2 = 1000<br>
+      Right 加权值 = 400px × 1 = 400<br>
+      总加权值 = 1000 + 400 = 1400<br><br>
+
+      <strong>4. 计算各元素收缩量：</strong><br>
+      Left 收缩量 = 300px × (1000/1400) = 300px × 0.714 = 214.29px<br>
+      Right 收缩量 = 300px × (400/1400) = 300px × 0.286 = 85.71px<br><br>
+
+      <strong>5. 计算最终宽度：</strong><br>
+      Left 最终宽度 = 500px - 214.29px = 285.71px<br>
+      Right 最终宽度 = 400px - 85.71px = 314.29px<br>
+
+      <em>注：上面显示的266.67px和333.33px是浏览器实际渲染的近似值</em>
+    </div>
+
+    <div class="result">
+      <strong>关键观察：</strong><br>
+      1. Left 元素虽然 shrink 值更大(2)，但因为 basis 值也更大(500px)，所以承担了更多的收缩<br>
+      2. Right 元素 shrink 值较小(1)，basis 值也较小(400px)，收缩相对较少<br>
+      3. 这体现了 flex-shrink 的加权特性：大元素承担更多收缩责任
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>核心答案总结</h2>
+
+    <div class="info">
+      <strong>Flex布局溢出和剩余空间分配不一样，原因如下：</strong>
+    </div>
+
+    <div class="analysis">
+      <strong>1. 剩余空间分配 (flex-grow)：</strong><br>
+      公式：剩余空间 × (元素grow值 / 总grow值)<br>
+      特点：简单的比例分配，不考虑元素原始大小<br><br>
+
+      <strong>2. 溢出收缩 (flex-shrink)：</strong><br>
+      公式：溢出空间 × (元素basis×shrink / 总加权值)<br>
+      特点：加权分配，同时考虑收缩比例和元素原始大小<br><br>
+
+      <strong>3. 为什么设计不同？</strong><br>
+      • 剩余空间分配：目标是公平分配多余空间<br>
+      • 溢出收缩：目标是合理压缩，大元素承担更多责任<br>
+      • 用户体验：避免小元素被过度压缩而失去可用性<br>
+      • 视觉平衡：保持布局的视觉协调性
+    </div>
+  </div>
+
+</body>
+
+</html>

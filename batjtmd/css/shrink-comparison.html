@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flex收缩机制对比演示</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .controls {
+      margin: 30px auto 20px auto;
+      max-width: 500px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .slider-label {
+      font-size: 16px;
+      color: #222;
+      margin-bottom: 5px;
+    }
+
+    .slider-value {
+      font-weight: bold;
+      color: #007bff;
+      margin-left: 10px;
+    }
+
+    .auto-btn {
+      margin-top: 10px;
+      padding: 8px 18px;
+      font-size: 15px;
+      background: #2196F3;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .auto-btn.running {
+      background: #1565c0;
+    }
+
+    .demo-section {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .demo-box {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      min-width: 340px;
+      flex: 1 1 340px;
+    }
+
+    .demo-title {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      height: 60px;
+      border: 2px solid #333;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      position: relative;
+      background: #f8f9fa;
+      overflow: hidden;
+    }
+
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 15px;
+      color: #fff;
+      height: 100%;
+      transition: width 0.2s;
+      box-sizing: border-box;
+    }
+
+    .left {
+      background: linear-gradient(90deg, #ff6b6b, #ffb199);
+      border-right: 1px solid #fff3;
+    }
+
+    .right {
+      background: linear-gradient(90deg, #4ecdc4, #6dd5ed);
+    }
+
+    .info {
+      font-size: 14px;
+      color: #555;
+      background: #e8f4f8;
+      border-left: 4px solid #2196F3;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .width-label {
+      position: absolute;
+      top: 2px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 13px;
+      color: #333;
+      font-weight: bold;
+      pointer-events: none;
+    }
+
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .result-table th,
+    .result-table td {
+      border: 1px solid #ddd;
+      padding: 6px 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .result-table th {
+      background: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Flex收缩机制对比演示</h1>
+  <div class="controls">
+    <div class="slider-label">
+      容器宽度：
+      <span class="slider-value" id="containerWidthValue">200</span> px
+    </div>
+    <input type="range" id="containerWidth" min="100" max="500" value="200" step="1">
+    <button class="auto-btn" id="autoBtn">自动演示</button>
+    <div class="info">
+      <b>Left：</b>flex: <span style="color:#f39c12">1</span> <span style="color:#d9534f">2</span> 300px<br>
+      <b>Right：</b>flex: <span style="color:#5bc0de">2</span> <span style="color:#5bc0de">1</span> 100px<br>
+      <b>说明：</b>下方分别展示标准flex收缩（加权收缩）和只按shrink比例收缩的效果。
+    </div>
+  </div>
+  <div class="demo-section">
+    <div class="demo-box">
+      <div class="demo-title">标准flex收缩（加权收缩）</div>
+      <div class="container" id="standardContainer">
+        <div class="width-label" id="standardLabel"></div>
+        <div class="left" id="standardLeft"></div>
+        <div class="right" id="standardRight"></div>
+      </div>
+      <table class="result-table">
+        <tr>
+          <th>元素</th>
+          <th>原始宽度</th>
+          <th>收缩量</th>
+          <th>最终宽度</th>
+        </tr>
+        <tr>
+          <td>Left</td>
+          <td>300</td>
+          <td id="standardLeftShrink"></td>
+          <td id="standardLeftFinal"></td>
+        </tr>
+        <tr>
+          <td>Right</td>
+          <td>100</td>
+          <td id="standardRightShrink"></td>
+          <td id="standardRightFinal"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="demo-box">
+      <div class="demo-title">只按shrink比例收缩</div>
+      <div class="container" id="simpleContainer">
+        <div class="width-label" id="simpleLabel"></div>
+        <div class="left" id="simpleLeft"></div>
+        <div class="right" id="simpleRight"></div>
+      </div>
+      <table class="result-table">
+        <tr>
+          <th>元素</th>
+          <th>原始宽度</th>
+          <th>收缩量</th>
+          <th>最终宽度</th>
+        </tr>
+        <tr>
+          <td>Left</td>
+          <td>300</td>
+          <td id="simpleLeftShrink"></td>
+          <td id="simpleLeftFinal"></td>
+        </tr>
+        <tr>
+          <td>Right</td>
+          <td>100</td>
+          <td id="simpleRightShrink"></td>
+          <td id="simpleRightFinal"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script>
+    const leftBasis = 300, leftShrink = 2, leftGrow = 1;
+    const rightBasis = 100, rightShrink = 1, rightGrow = 2;
+    const minWidth = 100, maxWidth = 500;
+    const containerWidthInput = document.getElementById('containerWidth');
+    const containerWidthValue = document.getElementById('containerWidthValue');
+    const autoBtn = document.getElementById('autoBtn');
+    let autoTimer = null;
+    let autoDirection = 1;
+
+    function updateDemo() {
+      const containerWidth = parseInt(containerWidthInput.value);
+      containerWidthValue.textContent = containerWidth;
+      // 标准flex收缩
+      const totalBasis = leftBasis + rightBasis;
+      const overflow = Math.max(0, totalBasis - containerWidth);
+      const leftWeighted = leftBasis * leftShrink;
+      const rightWeighted = rightBasis * rightShrink;
+      const totalWeighted = leftWeighted + rightWeighted;
+      const leftShrinkAmount = overflow * (leftWeighted / totalWeighted);
+      const rightShrinkAmount = overflow * (rightWeighted / totalWeighted);
+      const leftFinal = Math.max(0, leftBasis - leftShrinkAmount);
+      const rightFinal = Math.max(0, rightBasis - rightShrinkAmount);
+      // 只按shrink比例收缩
+      const shrinkSum = leftShrink + rightShrink;
+      const leftSimpleShrink = overflow * (leftShrink / shrinkSum);
+      const rightSimpleShrink = overflow * (rightShrink / shrinkSum);
+      const leftSimpleFinal = Math.max(0, leftBasis - leftSimpleShrink);
+      const rightSimpleFinal = Math.max(0, rightBasis - rightSimpleShrink);
+      // 更新标准flex
+      document.getElementById('standardContainer').style.width = containerWidth + 'px';
+      document.getElementById('standardLeft').style.width = leftFinal + 'px';
+      document.getElementById('standardRight').style.width = rightFinal + 'px';
+      document.getElementById('standardLeft').textContent = `Left: ${leftFinal.toFixed(2)}px`;
+      document.getElementById('standardRight').textContent = `Right: ${rightFinal.toFixed(2)}px`;
+      document.getElementById('standardLabel').textContent = `溢出: ${overflow}px`;
+      document.getElementById('standardLeftShrink').textContent = leftShrinkAmount.toFixed(2);
+      document.getElementById('standardRightShrink').textContent = rightShrinkAmount.toFixed(2);
+      document.getElementById('standardLeftFinal').textContent = leftFinal.toFixed(2);
+      document.getElementById('standardRightFinal').textContent = rightFinal.toFixed(2);
+      // 更新简单收缩
+      document.getElementById('simpleContainer').style.width = containerWidth + 'px';
+      document.getElementById('simpleLeft').style.width = leftSimpleFinal + 'px';
+      document.getElementById('simpleRight').style.width = rightSimpleFinal + 'px';
+      document.getElementById('simpleLeft').textContent = `Left: ${leftSimpleFinal.toFixed(2)}px`;
+      document.getElementById('simpleRight').textContent = `Right: ${rightSimpleFinal.toFixed(2)}px`;
+      document.getElementById('simpleLabel').textContent = `溢出: ${overflow}px`;
+      document.getElementById('simpleLeftShrink').textContent = leftSimpleShrink.toFixed(2);
+      document.getElementById('simpleRightShrink').textContent = rightSimpleShrink.toFixed(2);
+      document.getElementById('simpleLeftFinal').textContent = leftSimpleFinal.toFixed(2);
+      document.getElementById('simpleRightFinal').textContent = rightSimpleFinal.toFixed(2);
+    }
+
+    containerWidthInput.addEventListener('input', updateDemo);
+
+    // 自动滑动功能
+    autoBtn.addEventListener('click', function () {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+        autoBtn.textContent = '自动演示';
+        autoBtn.classList.remove('running');
+        return;
+      }
+      autoBtn.textContent = '停止演示';
+      autoBtn.classList.add('running');
+      autoDirection = 1;
+      autoTimer = setInterval(() => {
+        let val = parseInt(containerWidthInput.value);
+        if (autoDirection === 1) {
+          if (val < maxWidth) {
+            val++;
+          } else {
+            autoDirection = -1;
+            val--;
+          }
+        } else {
+          if (val > minWidth) {
+            val--;
+          } else {
+            autoDirection = 1;
+            val++;
+          }
+        }
+        containerWidthInput.value = val;
+        updateDemo();
+      }, 10);
+    });
+
+    updateDemo();
+  </script>
+</body>
+
+</html>
