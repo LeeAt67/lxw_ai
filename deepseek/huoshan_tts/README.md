@@ -4,4 +4,4 @@
 
 - 敏感信息怎么保护？
   .gitignore 哪些文件不用提交到远程 仓库也不进入
-  node_modules/ 这个目录中的所有文件 太大了
+  node_modules/ 这个目录中的所有文件 太大了  没有必要提交 npm i
