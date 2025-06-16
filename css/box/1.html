@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盒模型</title>
+    <style>
+        /*css reset 样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            /* display 可以去切换盒子的能力 
+               box-sizing 可以去设定盒子的计算方案
+               默认值是content-box width x height 指定的是内容的大小 标准盒模型
+               border-box  width x height 包含了border 以内的大小 怪异型(IE)模型
+            */
+            box-sizing: content-box;
+            width: 200px;
+            height: 200px;
+            background-color: green;
+            margin: 10px;
+            padding: 5px;
+            border: 2px solid yellow;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            border-radius: 50%;
+            /* 脱离了文档流 */
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row flex">
+        <aside class="box"></aside>
+        <main class="box">
+            <div class="inner"></div>
+        </main>
+        <aside class="box"></aside>
+    </div>
+</body>
+
+</html>
