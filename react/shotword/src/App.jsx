@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import PictureCard from './components/PictureCard';
+import { generateAudio } from './libs/audio'
 
 function App() {
   const userPrompt = `分析图片内容，找出最能描述图片的一个英文单词，尽量选择更简单的A1~A2的词汇。
@@ -66,7 +67,11 @@ function App() {
     setSentence(replyData.example_sentence);
     setExplanations(replyData.explanation.split('\n'));
     setExpReply(replyData.explanation_replys);
-
+    // 从url -> audio 一直都在
+    // base64 资源 比较小 -> atob -> uint8Array -> blob -> URL.generateObjectURL -> 临时地址 -> audio 展示
+    const audioUrl = await generateAudio(replyData.example_sentence)
+    console.log(audioUrl, 'app');
+    setAudio(audioUrl);
   }
 
   return (
