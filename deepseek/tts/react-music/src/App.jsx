@@ -25,10 +25,10 @@ function App() {
     //const voiceName = "zh_female_shuangkuaisisi_moon_bigtts";
     const voiceName = "zh_male_sunwukong_mars_bigtts";
     const endpoint = "/tts/api/v1/tts" //tts api llm 服务接口地址
-    
+
     const headers = {
-      'Content-Type':'application/json',
-      Authorization:'Bearer;${TOKEN}',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer;${TOKEN}',
     }
   }
   return (
