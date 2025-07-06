@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var a = {
+            name: '张三',
+            fn: function (a, b) {
+                console.log(this.name);
+                console.log(a, b);
+            }
+        }
+        // a.fn(1, 2)
+        const b = a.fn;
+        // 函数对象原型链上的方法
+        // 指定this的指向 
+        b.call(a, 1, 2); // 一个一个传过去
+        b.apply(a,[1,2]) // 集体传过去
+        // 延迟执行
+        const func2 = b.bind(a,1,2) // 返回一个新函数
+        func2()
+        console.log(func2);
+        
+    </script>
+</body>
+
+</html>
