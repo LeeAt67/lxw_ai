@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var name = "The Window";
+      //let b = 2;
+      var object = {
+        name: "My object",
+        getNameFunc: function () {
+          // return this.name
+          var that = this;
+          return function () {
+            return that.name;
+          };
+        },
+      };
+      console.log(object.getNameFunc()());
+      // 输出The Window（因为是独立调用，返回的是一个函数()()然后再立即执行，
+      // 过程可以拆解为 var returnedFunc = object.getNameFunc(); // 先获取函数
+      // returnedFunc(); // 独立调用，this 指向 window）
+      // 要输出 My object 则需要使用var that = this（内部的函数形成了闭包，that变量保存了this的引用）
+      // 或箭头函数（箭头函数没有自己的this，会继承定义时所在作用域的this）
+    </script>
+  </body>
+</html>
