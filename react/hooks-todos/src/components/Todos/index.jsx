@@ -22,7 +22,18 @@ const Todos = () => {
     },
   ]);
   // 新增todo
-  const addTodo = (title) => {};
+  const addTodo = (text) => {
+    // setTodo
+    // 数据状态是对象的时候
+    setTodos([
+      ...todos,
+      {
+        id:Data.now(),
+        text,
+        isCompleted:false,
+      }
+    ])
+  };
   return (
     <div className="app">
       Todos
