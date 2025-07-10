@@ -12,12 +12,12 @@ const Todos = () => {
   const [todos, setTodos] = useState([
     {
       id: 1,
-      title: "打豆豆",
+      text: "打豆豆",
       isCompleted: false,
     },
     {
       id: 2,
-      title: "算法竞赛",
+      text: "算法竞赛",
       isCompleted: false,
     },
   ]);
@@ -28,18 +28,32 @@ const Todos = () => {
     setTodos([
       ...todos,
       {
-        id:Data.now(),
+        id: Date.now(),
         text,
-        isCompleted:false,
-      }
-    ])
+        isCompleted: false,
+      },
+    ]);
   };
+  // 切换todo
+  const onToggle = (id) => {
+    console.log(id);
+    // state 是对象或数组的时候 不能直接修改 需要返回一个全新的数组或对象 
+    // todos 数组找到id 为id， isCompleted  ！completed
+    // 响应式？ 返回一个全新的todos  map
+    setTodos(todos.map(todo => todo.id === id 
+      ?{...todo,isCompleted:!todo.isCompleted}
+      : todo
+    ));
+  };
+
+  const onDelete = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  }
   return (
     <div className="app">
-      Todos
       {/* 自定义事件 */}
       <TodoForm onAddTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} onToggle={onToggle} onDelete={onDelete}/>
     </div>
   );
 };
