@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVC 开发方式示例</title>
+    <style>
+      body {
+        font-family: "Microsoft YaHei", sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .section h3 {
+        color: #666;
+        margin-top: 0;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="email"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .user-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .user-list li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+      }
+
+      .user-list li:hover {
+        background-color: #f8f9fa;
+      }
+
+      .user-detail {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 15px;
+      }
+
+      .error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      .success {
+        color: green;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>MVC 开发方式示例 - 用户管理系统</h1>
+
+      <!-- 添加用户表单 -->
+      <div class="section">
+        <h3>添加用户 (View层)</h3>
+        <form id="userForm">
+          <div class="form-group">
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">邮箱:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="age">年龄:</label>
+            <input type="text" id="age" name="age" required />
+          </div>
+          <button type="submit">添加用户</button>
+          <button type="button" id="clearBtn">清空表单</button>
+        </form>
+        <div id="formMessage"></div>
+      </div>
+
+      <!-- 用户列表 -->
+      <div class="section">
+        <h3>用户列表 (View层)</h3>
+        <ul id="userList" class="user-list">
+          <!-- 用户列表将通过JavaScript动态生成 -->
+        </ul>
+      </div>
+
+      <!-- 用户详情 -->
+      <div class="section">
+        <h3>用户详情 (View层)</h3>
+        <div id="userDetail" class="user-detail">
+          <p>点击用户列表中的用户查看详情</p>
+        </div>
+      </div>
+
+      <!-- MVC架构说明 -->
+      <div class="section">
+        <h3>MVC架构说明</h3>
+        <p>
+          <strong>Model:</strong>
+          处理用户数据，包含添加、查询、删除用户的业务逻辑
+        </p>
+        <p><strong>View:</strong> 显示用户界面，包括表单、列表和详情展示</p>
+        <p>
+          <strong>Controller:</strong> 处理用户交互，协调Model和View之间的通信
+        </p>
+      </div>
+    </div>
+
+    <script src="model.js"></script>
+    <script src="view.js"></script>
+    <script src="controller.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
