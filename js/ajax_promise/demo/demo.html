@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>模拟demo</title>
+    <style>
+      body {
+        margin: 0;
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
+        color: #fff;
+        font-family: "Segoe UI", "PingFang SC", "Hiragino Sans", Arial,
+          sans-serif;
+        min-height: 100vh;
+      }
+      #video-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 32px; /* 增大左右两栏间距 */
+        padding-bottom: 40px;
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+      .column-left,
+      .column-right {
+        flex: 1 1 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      @media (max-width: 700px) {
+        #video-list {
+          flex-direction: column;
+          gap: 0;
+          max-width: 100vw;
+        }
+        .column-left,
+        .column-right {
+          width: 100%;
+        }
+      }
+      .video-item {
+        width: 92vw;
+        max-width: 480px;
+        margin: 24px 0 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(30, 30, 30, 0.95);
+        border-radius: 18px;
+        box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.18);
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+      .video-item:hover {
+        box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.28);
+      }
+      .video-item img {
+        width: 100%;
+        max-height: 60vh;
+        object-fit: cover;
+        background: #222;
+        border-bottom: 1px solid #333;
+        opacity: 0;
+        transition: opacity 0.8s;
+      }
+      .video-item img.loaded {
+        opacity: 1;
+      }
+      .download-btn {
+        margin: 18px 0 16px 0;
+        padding: 10px 32px;
+        background: linear-gradient(90deg, #ff9966 0%, #ff5e62 100%);
+        color: #fff;
+        border: none;
+        border-radius: 24px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 8px 0 rgba(255, 94, 98, 0.12);
+        transition: background 0.3s, transform 0.2s;
+      }
+      .download-btn:hover {
+        background: linear-gradient(90deg, #ff5e62 0%, #ff9966 100%);
+        transform: translateY(-2px) scale(1.04);
+      }
+      #loading {
+        text-align: center;
+        padding: 24px;
+        font-size: 1.2em;
+        color: #ff9966;
+        letter-spacing: 2px;
+        font-weight: bold;
+        animation: loadingFade 1.2s infinite alternate;
+      }
+      @keyframes loadingFade {
+        from {
+          opacity: 0.5;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2
+      style="
+        text-align: center;
+        margin-top: 24px;
+        letter-spacing: 2px;
+        font-weight: 600;
+      "
+    >
+      二次元图片
+    </h2>
+    <div id="video-list">
+      <div class="column-left"></div>
+      <div class="column-right"></div>
+    </div>
+    <!-- 预览大图遮罩层 -->
+    <div
+      id="preview-overlay"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.92);
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <button
+        id="preview-prev"
+        style="
+          position: absolute;
+          left: 32px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, 0.4);
+          border: none;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          color: #fff;
+          font-size: 2em;
+          cursor: pointer;
+          box-shadow: 0 2px 8px #000;
+          outline: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s;
+        "
+      >
+        &#8592;
+      </button>
+      <img
+        id="preview-img"
+        src=""
+        style="
+          max-width: 90vw;
+          max-height: 90vh;
+          box-shadow: 0 0 32px #000;
+          border-radius: 16px;
+          transition: box-shadow 0.3s, transform 0.3s;
+        "
+      />
+      <button
+        id="preview-next"
+        style="
+          position: absolute;
+          right: 32px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, 0.4);
+          border: none;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          color: #fff;
+          font-size: 2em;
+          cursor: pointer;
+          box-shadow: 0 2px 8px #000;
+          outline: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s;
+        "
+      >
+        &#8594;
+      </button>
+    </div>
+    <div
+      id="loading"
+      style="display: none"
+    >
+      加载中...
+    </div>
+
+    <!-- js脚本 -->
+    <script>
+      let loading = false;
+      let finished = false;
+      // 加载图片并插入到高度较小的列
+      async function loadMoreImages(count = 1) {
+        if (loading || finished) return;
+        loading = true;
+        document.getElementById("loading").style.display = "block";
+
+        const leftCol = document.querySelector(".column-left");
+        const rightCol = document.querySelector(".column-right");
+        let promises = [];
+        for (let i = 0; i < count; i++) {
+          const imageUrl =
+            "https://www.dmoe.cc/random.php?t=" + Date.now() + Math.random();
+          const div = document.createElement("div");
+          div.className = "video-item";
+          div.innerHTML = `
+            <img src="${imageUrl}" style="max-width:90vw;max-height:60vh;display:block;margin:auto;" />
+          `;
+          // 选择高度较小的列
+          const leftHeight = leftCol.scrollHeight;
+          const rightHeight = rightCol.scrollHeight;
+          const targetCol = leftHeight <= rightHeight ? leftCol : rightCol;
+          targetCol.appendChild(div);
+
+          // 图片加载淡入动画
+          const img = div.querySelector("img");
+          promises.push(
+            new Promise(resolve => {
+              img.addEventListener("load", () => {
+                img.classList.add("loaded");
+                resolve();
+              });
+            })
+          );
+
+          // 绑定图片点击预览事件
+          img.style.cursor = "zoom-in";
+          img.addEventListener("click", () => {
+            const allImgs = Array.from(
+              document.querySelectorAll(".video-item img")
+            );
+            window.__previewImgs = allImgs.map(node => node.src);
+            window.__previewIndex = allImgs.indexOf(img);
+            const overlay = document.getElementById("preview-overlay");
+            const previewImg = document.getElementById("preview-img");
+            previewImg.src = img.src;
+            overlay.style.display = "flex";
+            updatePreviewBtns();
+          });
+        }
+        await Promise.all(promises);
+        document.getElementById("loading").style.display = "none";
+        loading = false;
+      }
+
+      // 初始加载5张图片
+      loadMoreImages(5);
+
+      // 滚动到底部自动加载3张图片
+      window.addEventListener("scroll", () => {
+        if (
+          window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 10
+        ) {
+          loadMoreImages(3);
+        }
+      });
+
+
+    </script>
+    <script>
+      // 预览遮罩关闭事件
+      document
+        .getElementById("preview-overlay")
+        .addEventListener("click", function (e) {
+          // 只要点击遮罩背景（不包括图片和按钮）都关闭
+          if (e.target === this) {
+            this.style.display = "none";
+            document.getElementById("preview-img").src = "";
+          }
+        });
+
+      // 切换按钮事件
+      function updatePreviewBtns() {
+        const prevBtn = document.getElementById("preview-prev");
+        const nextBtn = document.getElementById("preview-next");
+        const imgs = window.__previewImgs || [];
+        const idx = window.__previewIndex || 0;
+        prevBtn.style.visibility = idx > 0 ? "visible" : "hidden";
+        nextBtn.style.visibility = idx < imgs.length - 1 ? "visible" : "hidden";
+      }
+      document
+        .getElementById("preview-prev")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (window.__previewIndex > 0) {
+            window.__previewIndex--;
+            document.getElementById("preview-img").src =
+              window.__previewImgs[window.__previewIndex];
+            updatePreviewBtns();
+          }
+        });
+      document
+        .getElementById("preview-next")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (window.__previewIndex < window.__previewImgs.length - 1) {
+            window.__previewIndex++;
+            document.getElementById("preview-img").src =
+              window.__previewImgs[window.__previewIndex];
+            updatePreviewBtns();
+          }
+        });
+      // 键盘左右键支持
+      window.addEventListener("keydown", function (e) {
+        const overlay = document.getElementById("preview-overlay");
+        if (overlay.style.display === "flex") {
+          if (e.key === "ArrowLeft") {
+            document.getElementById("preview-prev").click();
+          } else if (e.key === "ArrowRight") {
+            document.getElementById("preview-next").click();
+          } else if (e.key === "Escape") {
+            overlay.style.display = "none";
+            document.getElementById("preview-img").src = "";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
