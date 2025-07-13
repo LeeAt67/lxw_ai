@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "my-basic-server": {
+      "command": "node",
+      "args": ["/path/to/your/mcp-server-example/server.js"],
+      "env": {}
+    },
+    "my-advanced-server": {
+      "command": "node",
+      "args": ["/path/to/your/mcp-server-example/advanced-server.js"],
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "mcp:*"
+      }
+    },
+    "my-custom-tools": {
+      "command": "node",
+      "args": ["/path/to/your/mcp-server-example/custom-tools.js"],
+      "env": {
+        "API_KEY": "your-api-key-here",
+        "DATABASE_URL": "your-database-url-here"
+      }
+    }
+  }
+}
