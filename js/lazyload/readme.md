@@ -28,6 +28,15 @@
   img 太多会严重影响页面的打开速度，第一重要的
   data-original 中
   自定义属性 data- 数据属性
-  图片的源地址是img 数据
+  图片的源地址是 img 数据
   original 原来的
+- 性能问题
+  - 解决了性能问题 首屏加载速度
+  - onScroll 触发太频繁 JS
+  - forEach imgs
+  - getBoundingClientRect 触发回流
 - 防抖 节流
+- InterSectionObserver
+  - observer 观察 异步的，不是同步的 浏览器的后台
+  - intersection rec 和可视区域交叉
+  - 不需要 onscroll 不需要节流
