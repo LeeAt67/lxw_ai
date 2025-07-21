@@ -98,7 +98,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 });
 
 // 注册工具调用处理器
-server.setRequestHandler(CallToolRequestSchema, async request => {
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   switch (name) {
@@ -246,7 +246,7 @@ async function handleWebSearch(args) {
   const data = await res.json();
   if (data.RelatedTopics && data.RelatedTopics.length > 0) {
     const results = data.RelatedTopics.slice(0, 3)
-      .map(item => item.Text || item.Result)
+      .map((item) => item.Text || item.Result)
       .filter(Boolean);
     return {
       content: [

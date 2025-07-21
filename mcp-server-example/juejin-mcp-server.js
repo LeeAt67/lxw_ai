@@ -7,6 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 读取规则文件
+const RULES_TEMPLATE_PATH = path.join(__dirname, "juejin_template.md");
 const RULES_SIMPLE_PATH = path.join(__dirname, "juejin_rules_simple.md");
 const RULES_DETAIL_PATH = path.join(__dirname, "juejin_rules_detail.md");
 
@@ -18,6 +19,7 @@ function readFileContent(filePath) {
   }
 }
 
+const rulesTemplate = readFileContent(RULES_TEMPLATE_PATH);
 const rulesSimple = readFileContent(RULES_SIMPLE_PATH);
 const rulesDetail = readFileContent(RULES_DETAIL_PATH);
 
