@@ -28,10 +28,24 @@
 - jsonwebtoken
   jwt 鉴权的库
   sign 颁发一个 token user， secret
-  decode secret 验证token user
+  decode secret 验证 token user
+
   - pnpm i jwt
   - import jwt from "jsonwebtoken";
   - sign
-  - HTTP 请求头 Authorization 带上token
+  - HTTP 请求头 Authorization 带上 token
   - Cookie 每次自动带上
-  - token需要手动设置
+  - token 需要手动设置
+
+- 加盐
+  secret
+  传递 token 前面会加上 Bearer ${token} 表示持有者
+  通过 http headers Authorization
+
+- 前端的用户权限状态 流程
+  - zustand
+    登录、user useUserStore
+  - 登录页面
+    受控/非受控组件
+  - 路由守卫
+  - api/
