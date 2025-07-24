@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {}, []);
   return (
     <>
-      <Suspense>
+      //<Suspense fallback={<div>Loading...</div>}>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
