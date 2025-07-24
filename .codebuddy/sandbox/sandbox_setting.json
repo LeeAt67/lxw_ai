@@ -1,0 +1,20 @@
+{
+  "path": "d:\\Lesson_si\\deploy-project",
+  "desc": "这是一个展示\"AGI时代展望：JavaScript的未来\"的网页项目，包含了关于JavaScript在AGI时代可能的发展方向的文章。",
+  "id": "fc3f7d35d2e64bd0a3e670dd1713fec4",
+  "data": {
+    "spaceKey": "fc3f7d35d2e64bd0a3e670dd1713fec4",
+    "connections": {
+      "webIDE": "https://fc3f7d35d2e64bd0a3e670dd1713fec4.ap-singapore.cloudstudio.club",
+      "preview": "https://fc3f7d35d2e64bd0a3e670dd1713fec4--{port}.ap-singapore.cloudstudio.club",
+      "api": "https://fc3f7d35d2e64bd0a3e670dd1713fec4--api.ap-singapore.cloudstudio.club",
+      "pty": "https://fc3f7d35d2e64bd0a3e670dd1713fec4--pty.ap-singapore.cloudstudio.club"
+    }
+  },
+  "config": {
+    "api": "https://fc3f7d35d2e64bd0a3e670dd1713fec4--api.ap-singapore.cloudstudio.club",
+    "pty": "https://fc3f7d35d2e64bd0a3e670dd1713fec4--pty.ap-singapore.cloudstudio.club",
+    "region": "ap-shanghai",
+    "spaceKey": "fc3f7d35d2e64bd0a3e670dd1713fec4"
+  }
+}
