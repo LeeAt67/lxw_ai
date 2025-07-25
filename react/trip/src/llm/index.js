@@ -50,3 +50,18 @@ export const kimiChat = async (messages) => {
   );
   return res;
 };
+
+export const generateAvatar = async (text) => {
+  // 设计prompt
+  const prompt = `
+  你是一个经验丰富的动漫头像设计师，请根据以下信息生成一个动漫头像：
+  昵称: ${text}
+  个性签名: ${text}
+  头像要求：
+  1. 头像为动漫风格
+  2. 头像为正面头像
+  3. 头像为彩色
+  4. 头像为高清
+  5. 头像为1:1比例
+  `;
+};

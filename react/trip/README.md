@@ -146,6 +146,8 @@ ReadMe.md 很重要 方便面试官
   - 对各家模型比较感兴趣， 升级为 kimiChat,doubaoChat.. 灵活
     性能、能力、性价比
     随意切换大模型，通过参数抽象
+  - 文生图
+    - 优化 prompt 设计，
 
 - 原子 css
   - App.css 里面添加通用样式
@@ -158,11 +160,10 @@ ReadMe.md 很重要 方便面试官
     样式复用的更好，以后几乎可以不用写样式
 
 ## 项目遇到过什么问题，怎么解决的
-- 在chat messages中 遇到message 覆盖问题
+
+- 在 chat messages 中 遇到 message 覆盖问题
 - 闭包陷阱问题
-  一次事件里面，两次setMessages()
-
-
+  一次事件里面，两次 setMessages()
 
 - 自定义 Hooks
 
