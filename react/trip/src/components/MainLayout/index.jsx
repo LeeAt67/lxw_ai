@@ -27,8 +27,11 @@ const MainLayout = () => {
     setActive(index);
   }, []);
   return (
-    <div>
-      <Outlet />
+    <div className="flex flex-col h-screen" style={{ paddingBottom: "50px" }}>
+      <div className="flex-1">
+        {" "}
+        <Outlet />
+      </div>
       {/* tabbar */}
       <Tabbar
         value={active}
