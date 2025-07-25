@@ -11,4 +11,19 @@
 .input {
   margin-right: 8px;
 }
-
+.messageLeft,
+.messageRight {
+  max-width: 70%;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin: 6px 0px;
+  padding: 8px 12px;
+}
+.messageLeft {
+  background-color: #fff;
+}
+.messageRight {
+  background-color: #4fc08d;
+  color: #fff;
+  margin-left: 30%;
+}

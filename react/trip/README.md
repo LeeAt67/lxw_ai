@@ -152,10 +152,18 @@ ReadMe.md 很重要 方便面试官
   - 各自模块里 module.css 不影响别的组件
   - lib-flexible 移动端适配
   - postcss pxtorem 插件 快速还原设计稿
-  - 原子类的css，
+  - 原子类的 css，
     一个元素按功能逻辑拆分成多个类，和原子一样
     元素的样式就可以由这些原子类组合而成
     样式复用的更好，以后几乎可以不用写样式
+
+## 项目遇到过什么问题，怎么解决的
+- 在chat messages中 遇到message 覆盖问题
+- 闭包陷阱问题
+  一次事件里面，两次setMessages()
+
+
+
 - 自定义 Hooks
 
   - useTitle

@@ -1,21 +1,149 @@
 import { useEffect, useState } from "react";
 import useTitle from "@/hooks/useTitle";
-import { kimiChat } from "@/llm";
+import { chat } from "@/llm";
 import styles from "./trip.module.css";
-import { Button, Input, Loading } from "react-vant";
+import { ChatO, UserO } from "@react-vant/icons";
+import { Button, Input, Loading, Toast } from "react-vant";
 
 const Trip = () => {
   const [text, setText] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const handleChat = () => {
-    if (text.trim() === "") return;
+  // 数据驱动界面
+  // 静态界面
+  const [messages, setMessages] = useState([
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+    {
+      id: 2,
+      content: "hello~",
+      role: "user",
+    },
+    {
+      id: 1,
+      content: "hello~~i am your assistant",
+      role: "assistant",
+    },
+  ]);
+
+  const handleChat = async () => {
+    if (text.trim() === "") {
+      Toast.info({
+        message: "内容不能为空",
+      });
+      return;
+    }
 
     setIsSending(true);
+    setText("");
+    // 闭包陷进
+    //setMessages([
+    //  ...messages,
+    //  {
+    //    role: "user",
+    //    content: text,
+    //  },
+    //]);
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "user",
+        content: text,
+      },
+    ]);
+    const newMessage = await chat([
+      {
+        role: "user",
+        content: text,
+      },
+    ]);
+    setMessages((prev) => [...prev, newMessage.data]);
+    setIsSending(false);
   };
+
   useTitle("旅游智能客服");
   return (
     <div className="flex flex-col h-all ">
-      <div className={`flex-1 ${styles.chatArea}`}></div>
+      <div className={`flex-1 ${styles.chatArea}`}>
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={
+              msg.role === "user" ? styles.messageRight : styles.messageLeft
+            }
+          >
+            {msg.role === "assistant" ? <ChatO /> : <UserO />}
+            {msg.content}
+          </div>
+        ))}
+      </div>
       <div className={`flex ${styles.inputArea}`}>
         <Input
           value={text}
