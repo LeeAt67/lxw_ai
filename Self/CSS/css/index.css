@@ -3,8 +3,10 @@
   align-items: center; /* 垂直居中 */
   width: 100%;
   padding: 0 24px; /* padding:10px 15px 代表 上下10px 左右15px; */
+  box-sizing: border-box;
 }
 
+/* nav 左侧入口*/
 .left-entry {
   display: flex;
 }
@@ -17,4 +19,50 @@
 }
 .left-entry .entry-title svg {
   margin-right: 6px;
+}
+
+/*nav 中间搜索框*/
+.center-search-container {
+  flex: 1;
+  height: 40px;
+  padding: 0 48px 0 4px;
+  border-radius: 8px;
+  border: 1px solid #e3e5e7; /*solid实心*/
+  background-color: #f1f2f3;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.center-search-container:hover {
+  background-color: #fff;
+}
+.center-search-container .nav-search-content {
+  display: flex;
+  height: 20px;
+  width: 100%;
+  padding: 0 8px;
+}
+.nav-search-content .nav-search-input {
+  flex: 1;
+  background-color: transparent;
+  line-height: 20px;
+  overflow: hidden;
+  padding-right: 8px;
+}
+.center-search-content .nav-search-button {
+  position: absolute;
+  top: 4px;
+  right: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  line-height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.center-search-container .nav-search-button:hover {
+  background-color: #e3e4e5;
 }
