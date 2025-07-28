@@ -13,6 +13,11 @@ const useSearchStore = create((set, get) => {
       console.log(res);
       set({ suggestList: res.data });
     },
+    setHotList: async () => {
+      const res = await getHotList();
+      console.log(res);
+      set({ hotList: res.data });
+    },
   };
 });
 export default useSearchStore;
