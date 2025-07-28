@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol,
+li {
+  list-style: none; /* 去掉列表样式-小圆点*/
+}
+a {
+  text-decoration: none; /* 去掉文本装饰效果-下划线*/
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+}
+body {
+  font-size: 14px;
+  background-color: skyblue;
+}

@@ -1,0 +1,20 @@
+.bili-nav {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  width: 100%;
+  padding: 0 24px; /* padding:10px 15px 代表 上下10px 左右15px; */
+}
+
+.left-entry {
+  display: flex;
+}
+.left-entry .entry-title {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  color: #fff;
+  margin-right: 15px;
+}
+.left-entry .entry-title svg {
+  margin-right: 6px;
+}
