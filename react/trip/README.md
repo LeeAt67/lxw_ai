@@ -133,6 +133,7 @@ ReadMe.md 很重要 方便面试官
     - react-vant + @react-vant/icons
     - value + onChange 响应式
     - 直接点击链接分享 active 的设置
+
 - chatbot 模块
   - llm 模块 chat 封装
   - 迭代 chat ， 支持任意模型
@@ -141,6 +142,7 @@ ReadMe.md 很重要 方便面试官
   - api
     GoogleSuggest
   - localStorage
+
 ## 项目亮点和难点
 
 - 前端智能
@@ -161,6 +163,14 @@ ReadMe.md 很重要 方便面试官
     一个元素按功能逻辑拆分成多个类，和原子一样
     元素的样式就可以由这些原子类组合而成
     样式复用的更好，以后几乎可以不用写样式
+- 用户体验优化
+  - 搜索建议，防抖+useMemo 性能优化
+  - 组件粒度划分
+    React.memo + useCallback
+  - 懒加载
+  - 热门推荐 + 相关商品（产品）
+  - SPA
+  - 骨架屏 不用让用户等待了 
 
 ## 项目遇到过什么问题，怎么解决的
 
@@ -194,4 +204,4 @@ ReadMe.md 很重要 方便面试官
   - 居中方案 position fixed + tlrb0 + margin:auto
   - React.memo 无状态的组件，不重新渲染
   - animation
-  - 
+  -
