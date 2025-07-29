@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>居中对齐演示</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+      }
+
+      .demo-container {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .demo-box {
+        width: 200px;
+        height: 200px;
+        border: 3px solid #333;
+        border-radius: 50%;
+        background-color: #00aeec;
+        display: flex;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        position: relative;
+      }
+
+      .horizontal-only {
+        justify-content: center;
+        /* 没有 align-items，默认是 stretch */
+      }
+
+      .vertical-only {
+        align-items: center;
+        /* 没有 justify-content，默认是 flex-start */
+      }
+
+      .both-centered {
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* 新增：padding影响的演示 */
+      .with-padding {
+        justify-content: center;
+        align-items: center;
+        padding: 30px; /* 添加内边距 */
+        background-color: #ff6b6b; /* 不同颜色区分 */
+      }
+
+      /* 新增：margin影响的演示 */
+      .with-margin {
+        justify-content: center;
+        align-items: center;
+        margin: 20px; /* 添加外边距 */
+        background-color: #4ecdc4; /* 不同颜色区分 */
+      }
+
+      .title {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .description {
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+
+      /* 添加边框显示内容区域 */
+      .content-area {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+        border: 2px dashed rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center; color: #333">CSS居中对齐演示</h1>
+
+    <div class="demo-container">
+      <div>
+        <div class="title">只有水平居中</div>
+        <div class="demo-box horizontal-only">
+          <span>登录</span>
+        </div>
+        <div class="description">justify-content: center</div>
+      </div>
+
+      <div>
+        <div class="title">只有垂直居中</div>
+        <div class="demo-box vertical-only">
+          <span>登录</span>
+        </div>
+        <div class="description">align-items: center</div>
+      </div>
+
+      <div>
+        <div class="title">完全居中</div>
+        <div class="demo-box both-centered">
+          <span>登录</span>
+        </div>
+        <div class="description">
+          justify-content: center<br />+ align-items: center
+        </div>
+      </div>
+
+      <!-- 新增：padding影响演示 -->
+      <div>
+        <div class="title">有padding的居中</div>
+        <div class="demo-box with-padding">
+          <div class="content-area"></div>
+          <span>登录</span>
+        </div>
+        <div class="description">padding: 30px<br />文字在内容区域居中</div>
+      </div>
+
+      <!-- 新增：margin影响演示 -->
+      <div>
+        <div class="title">有margin的居中</div>
+        <div class="demo-box with-margin">
+          <span>登录</span>
+        </div>
+        <div class="description">margin: 20px<br />不影响内部居中</div>
+      </div>
+    </div>
+
+    <div
+      style="
+        text-align: center;
+        margin-top: 30px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+      "
+    >
+      <h3>说明：</h3>
+      <p>
+        <strong>水平居中（justify-content: center）</strong
+        >：文字在圆圈中左右居中
+      </p>
+      <p>
+        <strong>垂直居中（align-items: center）</strong>：文字在圆圈中上下居中
+      </p>
+      <p><strong>完全居中</strong>：文字在圆圈中水平和垂直方向都居中</p>
+      <p>
+        <strong>padding影响</strong
+        >：文字在内容区域（虚线内）居中，而不是整个容器
+      </p>
+      <p>
+        <strong>margin影响</strong>：只影响元素在页面中的位置，不影响内部居中
+      </p>
+    </div>
+  </body>
+</html>
