@@ -154,8 +154,10 @@ ReadMe.md 很重要 方便面试官
     数据驱动界面（2 列） 奇偶
   - 加载更多 位于盒子底部的元素 通过使用 intersectionObserver
     观察了是否出现在视窗，性能更好，使用了观察者模式
+    组件卸载时，直接使用 disconnect 释放资源，防止内存泄漏
   - key id 下拉刷新
-
+  - 使用 IntersectionObserver 再次图片懒加载 data-src
+- toast组件
 ## 项目亮点和难点
 
 - 前端智能
@@ -190,6 +192,13 @@ ReadMe.md 很重要 方便面试官
 - 在 chat messages 中 遇到 message 覆盖问题
 - 闭包陷阱问题
   一次事件里面，两次 setMessages()
+- 升级瀑布流？
+
+  - 骨架屏
+  - 奇偶 images 两列分配可能有时候像天蚕脚一样，不好看，随机嘛
+    两个响应式数组，判断哪一列高度更少，将新得到的 img 加入那个数组
+  - intersectionObserver 用的两次，重复了，dry 原则 封装？
+    hooks
 
 - 自定义 Hooks
 
