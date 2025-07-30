@@ -157,7 +157,17 @@ ReadMe.md 很重要 方便面试官
     组件卸载时，直接使用 disconnect 释放资源，防止内存泄漏
   - key id 下拉刷新
   - 使用 IntersectionObserver 再次图片懒加载 data-src
-- toast组件
+- toast 组件封装
+  - 需要自定义，UI 组件库不满足需求
+  - UI props
+  - JS 显示出来 跨层级通信
+    观察者
+  - mitt eventBus 事件总线
+    - 实例化 mitt()
+    - on(自定义事件的名字。callback)
+    - emit（自定义事件的名字，参数）
+      组件通过监听一个自定义事件,实现基于事件的组件通信
+
 ## 项目亮点和难点
 
 - 前端智能

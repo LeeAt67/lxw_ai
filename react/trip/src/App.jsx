@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "@/components/MainLayout";
 import BlankLayout from "@/components/BlankLayout";
 import Loading from "@/components/Loading";
+import Toast from "@/components/Toast";
 
 const Home = lazy(() => import("@/pages/Home"));
 const Search = lazy(() => import("@/pages/Search"));
@@ -15,25 +16,28 @@ const Detail = lazy(() => import("@/pages/Detail"));
 
 function App() {
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        {/* 带有tabbar的Layout */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Navigate to="/home" />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-          <Route path="/discount" element={<Discount />}></Route>
-          <Route path="/Collection" element={<Collection />}></Route>
-          <Route path="/trip" element={<Trip />}></Route>
-          <Route path="/account" element={<Account />}></Route>
-        </Route>
+    <>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          {/* 带有tabbar的Layout */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Navigate to="/home" />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+            <Route path="/discount" element={<Discount />}></Route>
+            <Route path="/Collection" element={<Collection />}></Route>
+            <Route path="/trip" element={<Trip />}></Route>
+            <Route path="/account" element={<Account />}></Route>
+          </Route>
 
-        {/* 空的Layout */}
-        <Route element={<BlankLayout />}>
-          <Route path="/search" element={<Search />}></Route>
-          <Route path="/detail/:id" element={<Detail />}></Route>
-        </Route>
-      </Routes>
-    </Suspense>
+          {/* 空的Layout */}
+          <Route element={<BlankLayout />}>
+            <Route path="/search" element={<Search />}></Route>
+            <Route path="/detail/:id" element={<Detail />}></Route>
+          </Route>
+        </Routes>
+      </Suspense>
+      <Toast />
+    </>
   );
 }
 
