@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>如何让红绿灯停下来</title>
+  </head>
+  <body>
+    <button id="start">开始</button>
+    <button id="pause">暂停</button>
+    <div id="status"></div>
+    <script>
+      const statusBox = document.getElementById("status");
+
+      const seq = [
+        { color: "red", duration: 1000 },
+        { color: "yellow", duration: 2000 },
+        { color: "green", duration: 3000 },
+      ];
+
+      const sleep = (duration, signal) =>
+        new Promise((resolve, reject) => {
+          const timer = setTimeout(resolve, duration);
+          signal.addEventListener(
+            "abort",
+            () => {
+              clearTimeout(timer);
+              reject(new DOMException("Aborted", "AbortError"));
+            },
+            { once: true } // eventemitter 订阅发布者模式
+          );
+        });
+
+      async function trafficLight(signal) {
+        while (!signal.aborted) {
+          for (const { color, duration } of seq) {
+            if (signal.aborted) return;
+            console.log(color);
+            statusBox.textContent = color;
+            try {
+              await sleep(duration, signal);
+            } catch (err) {
+              if (err.name === "AbortError") return;
+              throw err;
+            }
+          }
+        }
+      }
+
+      let controller = null;
+
+      document.getElementById("start").addEventListener("click", () => {
+        if (!controller && controller.signal.aborted) {
+          controller = new AbortController();
+          trafficLight(controller.signal);
+        }
+      });
+
+      document.getElementById("pause").addEventListener("click", () => {
+        if (controller) {
+          controller.abort();
+        }
+      });
+    </script>
+  </body>
+</html>
