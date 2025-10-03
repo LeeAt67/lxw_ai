@@ -79,3 +79,5 @@ sse
 - merge 冲突，git 协作
 - AI 知识（用过哪些 ai，编辑器等） claude Code
 - Trae 海外版
+
+- 同源策略
