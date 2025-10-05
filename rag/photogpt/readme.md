@@ -58,3 +58,45 @@
 ## typescript
 
 - 组件 Props 类型定义
+
+## 前端部分的亮点
+
+- @ai-sdk/react 对 chatBot 响应式业务的封装 一行代码完成流式输出
+  useChat hook
+- react-markdown ai 响应 markdown 是主要的格式
+  # - ![] () 解析
+- tailwindcss 适配
+- react 组件划分和 ts 的类型约束
+  shadcn 按需加载、定制性强
+- lucide-react 图标库
+- useChat 对 hooks 的理解 响应式业务的封装，一般函数封装的区别
+
+## 后端亮点
+
+- ai streamText 流式输出
+- result.toDataStreamResponse() 将 streamText 生成的流式结果转换为一个可被前端消费
+  的 Response 对象，支持以数据流形式传输 AI 输出，实现逐字显示等实时效果。
+- 爬虫脚本
+  - seed 脚本任务
+    npm run seed
+    填充知识库
+  - seed.ts 编写这个脚本
+    ts 文件不可以直接运行
+    ts-node + typescript
+    先解析成 js，再运行。
+- langchain Agent 开发框架
+  coze promptTemplate 记忆 MessageMemory Community
+- vercel 的 AI 版图
+  - next.js
+  - ai-sdk
+  - js 的云端运行环境
+  - v0 bolt
+    ai-sdk/react 流式输出 ->prompt -> embedding
+    网页(wikipedia) -> langchain/community + puppeteer -> supabase 查询
+
+## 遇到的问题
+
+- ai-sdk 检索的时候，LLM 给了老版本的代码 调试出了问题，mcp 解决问题
+- ts-node 编译时不支持 esm，
+  tsconfig.json 中添加 ts 配置文件
+  支持 ts-node commonjs
