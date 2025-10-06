@@ -86,13 +86,15 @@
     先解析成 js，再运行。
 - langchain Agent 开发框架
   coze promptTemplate 记忆 MessageMemory Community
+- 正则 html 替换
 - vercel 的 AI 版图
   - next.js
   - ai-sdk
   - js 的云端运行环境
   - v0 bolt
     ai-sdk/react 流式输出 ->prompt -> embedding
-    网页(wikipedia) -> langchain/community + puppeteer -> supabase 查询
+    网页(wikipedia) -> langchain/community + puppeteer(爬取) ->langchain 提供的
+    分块(chunks?段落) -> embedding -> supabase 存储
 
 ## 遇到的问题
 
