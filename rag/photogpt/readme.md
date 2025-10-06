@@ -70,6 +70,16 @@
   shadcn 按需加载、定制性强
 - lucide-react 图标库
 - useChat 对 hooks 的理解 响应式业务的封装，一般函数封装的区别
+- prompt 模板设计
+  - 复用
+  - 准确
+  - 格式
+    - 身份
+    - 任务
+    - 分区 context, 和 question
+  - 返回格式
+  - 约束 不回答手机之外的内容
+  - 接受一个参数，参数返回，我们的应用，有几个核心的 promptTemplate 构成，用心设计
 
 ## 后端亮点
 
@@ -95,6 +105,15 @@
     ai-sdk/react 流式输出 ->prompt -> embedding
     网页(wikipedia) -> langchain/community + puppeteer(爬取) ->langchain 提供的
     分块(chunks?段落) -> embedding -> supabase 存储
+- 向量存储
+  CREATE TABLE public.chunks (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  content text null,
+  vector extensions.vector null,
+  url text null,
+  date_updated timestamp without time zone DEFAULT now(),
+  CONSTRAINT chunks_pkey PRIMARY KEY (id)
+  );
 
 ## 遇到的问题
 
@@ -102,3 +121,50 @@
 - ts-node 编译时不支持 esm，
   tsconfig.json 中添加 ts 配置文件
   支持 ts-node commonjs
+
+- rpc 调用
+  在 supabase 数据库中调用函数
+  ```sql
+  create or replace function get_relevant_chunks(
+  -- 一个长度为 1536 的“向量”
+  query_vector vector(1536),
+  -- 只找“相似度”超过这个值的结果
+  match_threshold float,
+  -- 最多返回多少条结果。
+  match_count int
+  )
+  -- 返回表格结果
+  returns table (
+  id uuid,
+  content text,
+  url text,
+  date_updated timestamp,
+  similarity float
+  )
+  -- 这个函数执行完后，会返回一个“表格形式”的结果。
+  language sql stable
+  -- 说明这个函数是用 SQL 语言写的，并且是“稳定的”
+  -- 函数内容开始。
+  as $$
+  select
+    id,
+    content,
+    url,
+    date_updated,
+    -- chunks.vector <=> query_vector 是 pgvector 扩展提供的“距离”计算
+    1 - (chunks.vector <=> query_vector) as similarity
+  from chunks
+  where 1 - (chunks.vector <=> query_vector) > match_threshold
+  order by similarity desc
+  limit match_count;
+  -- 函数内容结束。
+  $$;
+  ```
+- 向量的相似度计算
+  - mysql 不支持，postgresql 支持，
+    <=> 距离计算
+  - 1->
+  - 数据库支持函数
+    传参
+    指定返回的内容
+    构建 sql

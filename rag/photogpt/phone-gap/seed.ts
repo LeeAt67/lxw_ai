@@ -50,18 +50,21 @@ const loadData = async (webpages: string[]) => {
     // console.log(content);
     const chunks = await splitter.splitText(content);
     // console.log(chunks, "-----");
-    // for (let chunk of chunks) {
-    const { embedding } = await embed({
-      model: openai.embedding("text-embedding-3-small"),
-      value: chunks[0],
-    });
-    console.log(embedding);
-    // }
-    const { error } = await supabase.from("chunks").insert({
-      content: chunk[0],
-      vector: embedding,
-      url: url,
-    });
+    for (let chunk of chunks) {
+      const { embedding } = await embed({
+        model: openai.embedding("text-embedding-3-small"),
+        value: chunk,
+      });
+      console.log(embedding);
+      const { error } = await supabase.from("chunks").insert({
+        content: chunk,
+        vector: embedding,
+        url: url,
+      });
+      if (error) {
+        console.error("Error inserting chunk:", error);
+      }
+    }
   }
 };
 // 知识库的来源，可配置

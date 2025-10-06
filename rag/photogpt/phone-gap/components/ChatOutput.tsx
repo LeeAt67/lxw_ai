@@ -21,7 +21,7 @@ export default function ChatOutput({ messages, status }: ChatOutputProps) {
         <div className="text-muted-foreground">Generating response...</div>
       )}
       {status === "error" && (
-        <div className="text-red-500">An error occured.</div>
+        <div className="text-red-500">An error occurred.</div>
       )}
     </>
   );
