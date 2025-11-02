@@ -92,52 +92,63 @@ class MyTextToSpeechPipeline {
 const speaker_embeddings_cache = new Map();
 
 self.onmessage = async (e) => {
-  // console.log(e)
-  // ai pipeline 派发一个nlp任务
-  // 懒加载 llm 初始化和加载放到第一次任务调用之时
-  // 解构三个实例
-  const [tokenizer, model, vocoder] = await MyTextToSpeechPipeline.getInstance(
-    (x) => {
-      self.postMessage(x);
-    }
-  );
-
-  const { input_ids } = tokenizer(e.data.text);
-  // token 将是LLM 的输入
-  // 将原始的输入，分词为一个一个word(字) , 对应的数字编码
-  // 向量的相似度、纬度 万事万物了
-  // 一个一个token 去生成
-  // 以前的搜索的区别
-  // prompt -> token -> LLM(函数,向量计算，参数十亿+级别) -> outpus
-  // console.log(e.data.text, input_ids, '????');
-  // 基于model 生成的声音特征
-  // embeddings  向量计算
-  let speaker_embeddings = speaker_embeddings_cache.get(e.data.speaker_id);
-  if (speaker_embeddings === undefined) {
-    // 下载某个音色的特征向量
-    speaker_embeddings = await MyTextToSpeechPipeline.getSpeakerEmbeddings(
-      e.data.speaker_id
+  try {
+    // console.log(e)
+    // ai pipeline 派发一个nlp任务
+    // 懒加载 llm 初始化和加载放到第一次任务调用之时
+    // 解构三个实例
+    const [tokenizer, model, vocoder] = await MyTextToSpeechPipeline.getInstance(
+      (x) => {
+        self.postMessage(x);
+      }
     );
-    // 将下载的特征向量存入缓存
-    speaker_embeddings_cache.set(e.data.speaker_id, speaker_embeddings);
-  }
-  // console.log(speaker_embeddings_cache)
-  const { waveform } = await model.generate_speech(
-    input_ids, // 分词的数组
-    speaker_embeddings, // 512维的向量
-    {
-      vocoder, // 合成器
+
+    const { input_ids } = tokenizer(e.data.text);
+    // token 将是LLM 的输入
+    // 将原始的输入，分词为一个一个word(字) , 对应的数字编码
+    // 向量的相似度、纬度 万事万物了
+    // 一个一个token 去生成
+    // 以前的搜索的区别
+    // prompt -> token -> LLM(函数,向量计算，参数十亿+级别) -> outpus
+    // console.log(e.data.text, input_ids, '????');
+    // 基于model 生成的声音特征
+    // embeddings  向量计算
+    let speaker_embeddings = speaker_embeddings_cache.get(e.data.speaker_id);
+    if (speaker_embeddings === undefined) {
+      // 下载某个音色的特征向量
+      speaker_embeddings = await MyTextToSpeechPipeline.getSpeakerEmbeddings(
+        e.data.speaker_id
+      );
+      // 将下载的特征向量存入缓存
+      speaker_embeddings_cache.set(e.data.speaker_id, speaker_embeddings);
     }
-  );
-  // console.log(waveform);
-  // 合成音频
-  // 声音的Blob 文件
-  const wav = encodeWAV(waveform.data);
-  // console.log(wav);
-  self.postMessage({
-    status: "complete",
-    output: new Blob([wav], {
-      type: "audio/wav",
-    }),
-  });
+    // console.log(speaker_embeddings_cache)
+    const { waveform } = await model.generate_speech(
+      input_ids, // 分词的数组
+      speaker_embeddings, // 512维的向量
+      {
+        vocoder, // 合成器
+      }
+    );
+    // console.log(waveform);
+    // 合成音频
+    // 声音的Blob 文件
+    const wav = encodeWAV(waveform.data);
+    // console.log(wav);
+    self.postMessage({
+      status: "complete",
+      output: new Blob([wav], {
+        type: "audio/wav",
+      }),
+    });
+  } catch (error) {
+    console.error("Worker error:", error);
+    self.postMessage({
+      status: "error",
+      error: {
+        message: error.message,
+        type: error.name,
+      },
+    });
+  }
 };
